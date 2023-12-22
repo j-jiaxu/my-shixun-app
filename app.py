@@ -1,8 +1,7 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
-st.set_options(locale='zh_CN.UTF-8', encoding='utf-8')
 from bs4 import BeautifulSoup
 import requests
-# -*- coding: utf-8 -*-
 import matplotlib.pyplot as plt
 plt.rcParams["font.sans-serif"]=["Neon"] #设置字体
 plt.rcParams["axes.unicode_minus"]=False #该语句解决图像中的“-”负号的乱码问题
