@@ -1,8 +1,0 @@
-beautifulsoup4==4.12.2
-jieba==0.42.1
-matplotlib==3.8.2
-pyecharts==2.0.4
-Requests==2.31.0
-setuptools==69.0.2
-streamlit==1.29.0
-streamlit_echarts==0.4.0
