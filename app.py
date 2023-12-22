@@ -32,9 +32,9 @@ def get_data(html):
 def get_txt(a_tags):
     a_tags_ls=a_tags.replace("\n"," ")
     # 以utf-8编码写入txt文件
-    with open(f'1.txt','w',encoding='utf-8') as f:
+    with open(f'requirements.txt','w',encoding='utf-8') as f:
         f.write(a_tags_ls)
-    return '1.txt'
+    return 'requirements.txt'
 
 # 读取txt文件并进行分词
 def a_tags_read(a_tags_txt):
@@ -67,9 +67,6 @@ def a_tags_csv(word_counts):
 
 # 获取词频最高的前20个词
 def a_tags_top(word_counts):
-    # word_count={}
-    # for word,count in word_counts.items():
-    #     word_count[word]=count
     word_count = dict(Counter(word_counts).most_common(20))
 
     return word_count
