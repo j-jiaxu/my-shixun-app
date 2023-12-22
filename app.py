@@ -14,6 +14,7 @@ from pyecharts.charts import *
 import streamlit_echarts as ste
 import math
 import pandas as pd
+from pyecharts.globals import ThemeType 
 #############################################################################################################
 
 # 获取html文本
