@@ -200,13 +200,10 @@ def plot_ciyun_chart(word_count,shape_mask):
     st.components.v1.html(html_content, height=500,width=900)
 
 ##############################################################################################################
-
+# 显示词频
 def get_word():
     word_counts=common()
-    
-    
-
-
+   
     # 输出CSV文件
     if word_counts:
         # 将字典转换成列表
@@ -216,15 +213,7 @@ def get_word():
         # 使用st.table()函数显示表格
         st.table(df)
 
-        # 读取 CSV 文件
-        uploaded_file = st.file_uploader("words1.csv", type=['csv'])
-
-        if uploaded_file is not None:
-            # 读取上传的 CSV 文件
-            data = pd.read_csv(uploaded_file)
-            # 将 CSV 文件内容以表格形式显示在页面上
-            st.cache_data(data)
-
+# 可视化
 def Visualization():
     #侧边栏选项
     list_baidu_project= ['折线图', '饼图', '柱形图','直方图','散点图','雷达图','漏斗图']
