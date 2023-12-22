@@ -11,7 +11,6 @@ setup(
     install_requires=[  # 项目依赖
         'streamlit',
         'Requests',
-        'gopup',
         'setuptools'
         'beautifulsoup4',
         'plotly',
