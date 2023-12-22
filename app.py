@@ -19,7 +19,7 @@ import pandas as pd
 def get_html(url):
     response=requests.get(url)
     # 获取编码方式
-    response.encoding = response.apparent_encoding
+    response.encoding = 'utf-8'
     return response.text
 
 # 查找body标签中的数据
@@ -67,7 +67,9 @@ def a_tags_csv(word_counts):
 
 # 获取词频最高的前20个词
 def a_tags_top(word_counts):
-    word_count = dict(Counter(word_counts).most_common(20))
+    sorted_word_counts = dict(sorted(word_counts.items(), key=lambda item: item[1], reverse=True))
+    # 取出前20个
+    word_count = dict(list(sorted_word_counts.items())[:20])
     return word_count
 ##############################################################################################################
 def common():
@@ -86,8 +88,7 @@ def common():
         word_counts=a_tags_read(a_tags_txt)
         a_tags_csv(word_counts)
         return word_counts
-    else:
-        return False
+    
 ##############################################################################################################
 
         
@@ -146,23 +147,29 @@ def plot_plotly_chart(word_count):
 
 # 雷达图
 def plot_leida_chart(word_count):
+    # 转换为列表形式
     words=list(word_count.keys())
     counts=list(word_count.values())
     n = len(counts)
+    # 计算每个单词对应的角度，从0到2π
     angles = [i * 2 * math.pi / n for i in range(n)]
+    # 添加第一个角度到角度列表的末尾，使图形闭合
     angles.append(angles[0])
     counts.append(counts[0])
     fig = plt.figure()
+    # 在图形中添加一个极坐标子图
     ax = fig.add_subplot(111, polar=True)
+    # 绘制词频的线
     ax.plot(angles, counts)
+    # 填充颜色
     ax.fill(angles, counts, alpha=0.3)
     ax.set_thetagrids([a * 180 / math.pi for a in angles[:-1]], words)
+    # 显示网格线
     ax.grid(True)
-    ax.plot(angles, counts, 'o', linewidth=2)
-    ax.plot(angles, counts, color='r', linewidth=2)
+    # 以点的方式再次绘制词频线
+    ax.plot(angles, counts, 'o', color='r', linewidth=2)
     st.pyplot(fig)
     
-
 
 
 # 漏斗图
@@ -196,6 +203,19 @@ def plot_ciyun_chart(word_count,shape_mask):
 
 def get_word():
     word_counts=common()
+    
+    # 将字典转换成列表
+    data = [{'Word': key, 'Count': value} for key, value in word_counts.items()]
+    df = pd.DataFrame(data)
+    st.write('词频：')
+    # 使用st.table()函数显示表格
+    st.table(df)
+
+    # table_data = [list(word_counts.keys()), list(word_counts.values())]  
+    
+    # st.table(table_data, transpose=True)
+
+    # 输出CSV文件
     if word_counts:
         # 上传 CSV 文件
         uploaded_file = st.file_uploader("words1.csv", type=['csv'])
@@ -209,14 +229,13 @@ def get_word():
 def Visualization():
     #侧边栏选项
     list_baidu_project= ['折线图', '饼图', '柱形图','直方图','散点图','雷达图','漏斗图']
-    selected_option = st.sidebar.selectbox("请选择图形类型",list_baidu_project)
+    selected_option = st.sidebar.selectbox("type",list_baidu_project)
 
     word_counts=common()
-    # 获得词频最高的20个词
-    word_count=a_tags_top(word_counts)
-    # st.write(word_counts)
 
-    if word_count:
+    if word_counts:
+        # 获得词频最高的20个词
+        word_count=a_tags_top(word_counts)
         # 根据侧边栏选择显示不同的内容
         if selected_option == "折线图":
             plot_line_chart(word_count)
@@ -233,19 +252,18 @@ def Visualization():
         elif selected_option == "雷达图":
             plot_leida_chart(word_count)
 
-
-    
     
 # 词云
 def ciyun():
     word_counts=common()
-    # 获得词频最高的20个词
-    word_count=a_tags_top(word_counts)
+    
     # 读取多个形状图片
     shape_images = {'circle','rect','roundRect','triangle','diamond','pinwheel','snowflake','heart','star'}
     shape_mask = st.sidebar.selectbox("shape",shape_images)
 
-    if word_count!=None:
+    if word_counts:
+        # 获得词频最高的20个词
+        word_count=a_tags_top(word_counts)
         plot_ciyun_chart(word_count,shape_mask)
 
 ##############################################################################################################
@@ -253,7 +271,7 @@ def ciyun():
 
 def main():
     # 创建侧边栏选项来切换页面
-    page = st.sidebar.radio("选择页面", ("word_count", "Visualization","ciyun"))
+    page = st.sidebar.radio("page", ("word_count", "Visualization","ciyun"))
 
     if page=="word_count":
         get_word()
@@ -261,13 +279,7 @@ def main():
         Visualization()
     elif page=="ciyun":
         ciyun()
-
-   
-
-    
-    
-    
-    
+  
 
 if __name__=='__main__':
     main()
