@@ -90,103 +90,95 @@ def common():
         a_tags_csv(word_counts)
         return word_counts
     
-##############################################################################################################
-
-        
+###################################绘制图形###########################################################################
 # 绘制折线图
 def plot_line_chart(word_count):
-    # 画布大小设置
-    fig=plt.figure(figsize=(10, 6))
-    # 标题
-    plt.title("折线图")
-    # x、y轴名称
-    plt.xlabel("words")
-    plt.ylabel("counts")
-    # 调用函数绘制折线图
-    plt.plot(word_count.keys(), word_count.values(), marker='o')
-    # 显示画布
-    st.pyplot(fig)
+    # 创建对象
+    line_chart = Line()
+    # 添加x轴坐标
+    line_chart.add_xaxis(list(word_count.keys()))
+    # 添加y轴坐标，不显示数据
+    line_chart.add_yaxis("", list(word_count.values()), label_opts=opts.LabelOpts(is_show=False))
+    # 设置全局选项，包括标题等
+    line_chart.set_global_opts(title_opts=opts.TitleOpts(title="折线图"))
+    ste.st_pyecharts(line_chart)
 
 # 饼图
 def plot_pie_chart(word_count):
-    fig=plt.figure(figsize=(10, 6))
-    plt.title("饼图")
-    # 调用函数绘制饼图，autopct='%1.1f%%'显示饼图每一部分的百分比，startangle=140饼图的起始角度
-    plt.pie(word_count.values(),labels=word_count.keys(),autopct='%1.1f%%', startangle=140)
-    st.pyplot(fig)
+    # 创建对象
+    pie_chart = Pie()
+    # 添加键值对
+    pie_chart.add("", list(zip(list(word_count.keys()), list(word_count.values()))))
+    ste.st_pyecharts(pie_chart)
+    st.write("饼图")
 
 # 柱状图
 def plot_bar_chart(word_count):
-    fig=plt.figure(figsize=(10, 6))
-    plt.title('柱状图')
-    plt.xlabel('words')
-    plt.ylabel('counts')
-     # 调用函数绘制柱状图
-    plt.bar(word_count.keys(),word_count.values(),0.8,color='green')
-    st.pyplot(fig)
+    # 创建Bar()对象
+    bar_chart = Bar()
+    # 添加x轴坐标
+    bar_chart.add_xaxis(list(word_count.keys()))
+    # 添加y轴坐标，不显示数据
+    bar_chart.add_yaxis("", list(word_count.values()), label_opts=opts.LabelOpts(is_show=False))
+    # 设置全局选项，包括标题等
+    bar_chart.set_global_opts(title_opts=opts.TitleOpts(title="柱形图"))
+    ste.st_pyecharts(bar_chart)
 
-    
-# # 散点图
-# def plot_scatter_chart(word_count):
-#     if st.button("Re-run"):
-#         fig=plt.figure(figsize=(10, 6))
-#         plt.title('散点图')
-#         plt.xlabel('words')
-#         plt.ylabel('counts')
-#         plt.scatter(word_count.keys(),word_count.values())
-#         st.pyplot(fig)
-
+# 散点图
 def plot_scatter_chart(word_count):
     if st.button("Re-run"):
+        # 创建Scatter对象
         scatter_chart = Scatter()
+        # 添加x轴坐标
         scatter_chart.add_xaxis(list(word_count.keys()))
+        # 添加y轴坐标
         scatter_chart.add_yaxis("", list(word_count.values()),label_opts=opts.LabelOpts(is_show=False))
-        scatter_chart.set_global_opts(title_opts=opts.TitleOpts(title="散点图"),)
+        # 设置全局选项，包括标题等
+        scatter_chart.set_global_opts(title_opts=opts.TitleOpts(title="散点图"))
         ste.st_pyecharts(scatter_chart)
 
-# 直方图
+# 面积图
 def plot_plotly_chart(word_count):
-    if st.button("Re-run"):
-        fig=plt.figure(figsize=(10, 6))
-        plt.title('直方图')
-        plt.xlabel('words')
-        plt.ylabel('counts')
-        plt.hist(word_count.values(),bins=len(word_count),color='yellow')
-        st.pyplot(fig)
+   # 创建一个 Line 图表对象，使用init_opts参数初始化图表，设置其主题为LIGHT-明亮
+   mianji_chart = Line(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
+   # 添加X轴数据
+   mianji_chart.add_xaxis(list(word_count.keys()))
+   # 使用list(word_count.values())作为Y轴的数据点，数据线是平滑的，不是折线，在折线下方填充颜色以创建面积图，并设置填充的不透明度为0.5
+   mianji_chart.add_yaxis("Counts", list(word_count.values()), is_smooth=True, areastyle_opts=opts.AreaStyleOpts(opacity=0.5))  
+   mianji_chart.set_global_opts(title_opts=opts.TitleOpts(title="面积图")) 
+   ste.st_pyecharts(mianji_chart) 
 
 # 雷达图
 def plot_leida_chart(word_count):
-    # 转换为列表形式
-    words=list(word_count.keys())
-    counts=list(word_count.values())
-    n = len(counts)
-    # 计算每个单词对应的角度，从0到2π
-    angles = [i * 2 * math.pi / n for i in range(n)]
-    # 添加第一个角度到角度列表的末尾，使图形闭合
-    angles.append(angles[0])
-    counts.append(counts[0])
-    fig = plt.figure()
-    # 在图形中添加一个极坐标子图
-    ax = fig.add_subplot(111, polar=True)
-    # 绘制词频的线
-    ax.plot(angles, counts)
-    # 填充颜色
-    ax.fill(angles, counts, alpha=0.3)
-    ax.set_thetagrids([a * 180 / math.pi for a in angles[:-1]], words)
-    # 显示网格线
-    ax.grid(True)
-    # 以点的方式再次绘制词频线
-    ax.plot(angles, counts, 'o', color='r', linewidth=2)
-    st.pyplot(fig)
-    
+    # 转换为列表形式  
+    words = list(word_count.keys())  
+    counts = list(word_count.values())  
+      
+    # 创建Radar对象  
+    radar_chart = Radar()  
+      
+    # 添加schema，设置最大值和指标名称  
+    radar_chart.add_schema(schema=[opts.RadarIndicatorItem(name=word, max_=max_value) for word, max_value in zip(words, counts)]  )  
+      
+    # 添加数据点，这里我们使用counts作为数据点，并通过'o'标记它们  
+    data = [counts]  
+    radar_chart.add("", data, label_opts=opts.LabelOpts(is_show=False),   
+                   linestyle_opts=opts.LineStyleOpts(color="red", width=2),   
+                   areastyle_opts=opts.AreaStyleOpts(color=0.3))  
+    # 设置全局选项，包括标题等 
+    radar_chart.set_global_opts(title_opts=opts.TitleOpts(title="雷达图"))  
+    ste.st_pyecharts(radar_chart)
 
+    
 
 # 漏斗图
 def plot_ld_charts(word_count):
+    # 创建Funnel对象
     wf = Funnel()
-    wf.add('漏斗图',[list(z) for z in zip(word_count.keys(), word_count.values())])
+    st.write("漏斗图")
+    # 将字典中的键值对添加到图表中
+    wf.add('',[list(z) for z in zip(word_count.keys(), word_count.values())])
     ste.st_pyecharts(wf)
-
 ##############################################################################################################
 # 词云
 def plot_ciyun_chart(word_count,shape_mask):
@@ -225,7 +217,7 @@ def get_word():
 # 可视化
 def Visualization():
     #侧边栏选项
-    list_baidu_project= ['折线图', '饼图', '柱形图','直方图','散点图','雷达图','漏斗图']
+    list_baidu_project= ['折线图', '饼图', '柱形图','面积图','散点图','雷达图','漏斗图']
     selected_option = st.sidebar.selectbox("type",list_baidu_project)
 
     word_counts=common()
@@ -240,7 +232,7 @@ def Visualization():
             plot_pie_chart(word_count)
         elif selected_option == "柱形图":
             plot_bar_chart(word_count)
-        elif selected_option == "直方图":
+        elif selected_option == "面积图":
             plot_plotly_chart(word_count)
         elif selected_option == "散点图":
             plot_scatter_chart(word_count)
