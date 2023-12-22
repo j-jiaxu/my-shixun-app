@@ -88,6 +88,7 @@ def common():
         a_tags_txt=get_txt(a_tags.text)
         # 将词放入csv文件
         word_counts=a_tags_read(a_tags_txt)
+        a_tags_csv(word_counts)
         return word_counts
     else:
         return False
