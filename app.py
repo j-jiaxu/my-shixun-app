@@ -204,20 +204,19 @@ def plot_ciyun_chart(word_count,shape_mask):
 def get_word():
     word_counts=common()
     
-    # 将字典转换成列表
-    data = [{'Word': key, 'Count': value} for key, value in word_counts.items()]
-    df = pd.DataFrame(data)
-    st.write('词频：')
-    # 使用st.table()函数显示表格
-    st.table(df)
-
-    # table_data = [list(word_counts.keys()), list(word_counts.values())]  
     
-    # st.table(table_data, transpose=True)
+
 
     # 输出CSV文件
     if word_counts:
-        # 上传 CSV 文件
+        # 将字典转换成列表
+        data = [{'Word': key, 'Count': value} for key, value in word_counts.items()]
+        df = pd.DataFrame(data)
+        st.write('词频：')
+        # 使用st.table()函数显示表格
+        st.table(df)
+
+        # 读取 CSV 文件
         uploaded_file = st.file_uploader("words1.csv", type=['csv'])
 
         if uploaded_file is not None:
@@ -279,7 +278,6 @@ def main():
         Visualization()
     elif page=="ciyun":
         ciyun()
-  
 
 if __name__=='__main__':
     main()
