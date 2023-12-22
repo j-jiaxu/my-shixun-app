@@ -10,7 +10,7 @@ import re
 from collections import Counter 
 import csv
 from pyecharts import options as opts 
-from pyecharts.charts import WordCloud,Funnel
+from pyecharts.charts import *
 import streamlit_echarts as ste
 import math
 import pandas as pd
