@@ -165,7 +165,7 @@ def plot_leida_chart(word_count):
     data = [counts]  
     radar_chart.add("", data, label_opts=opts.LabelOpts(is_show=False),   
                    linestyle_opts=opts.LineStyleOpts(color="red", width=2),   
-                   areastyle_opts=opts.AreaStyleOpts(color=0.3))  
+                   areastyle_opts=opts.AreaStyleOpts(color=0.1))  
     # 设置全局选项，包括标题等 
     radar_chart.set_global_opts(title_opts=opts.TitleOpts(title="雷达图"))  
     ste.st_pyecharts(radar_chart)
