@@ -12,6 +12,7 @@ bleach==6.1.0
 blinker==1.7.0
 bs4==0.0.1
 cachetools==5.3.2
+cargo==0.3
 certifi==2023.11.17
 cffi==1.16.0
 charset-normalizer==3.3.2
