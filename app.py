@@ -36,9 +36,9 @@ def get_data(html):
 def get_txt(a_tags):
     a_tags_ls=a_tags.replace("\n"," ")
     # 以utf-8编码写入txt文件
-    with open(f'requirements.txt','w',encoding='utf-8') as f:
+    with open(f'words.txt','w',encoding='utf-8') as f:
         f.write(a_tags_ls)
-    return 'requirements.txt'
+    return 'words.txt'
 
 # 读取txt文件并进行分词
 def a_tags_read(a_tags_txt):
