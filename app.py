@@ -145,7 +145,7 @@ def plot_plotly_chart(word_count):
    # 添加X轴数据
    mianji_chart.add_xaxis(list(word_count.keys()))
    # 使用list(word_count.values())作为Y轴的数据点，数据线是平滑的，不是折线，在折线下方填充颜色以创建面积图，并设置填充的不透明度为0.5
-   mianji_chart.add_yaxis("Counts", list(word_count.values()), is_smooth=True, areastyle_opts=opts.AreaStyleOpts(opacity=0.5))  
+   mianji_chart.add_yaxis("", list(word_count.values()), is_smooth=True, areastyle_opts=opts.AreaStyleOpts(opacity=0.5))  
    mianji_chart.set_global_opts(title_opts=opts.TitleOpts(title="面积图")) 
    ste.st_pyecharts(mianji_chart) 
 
