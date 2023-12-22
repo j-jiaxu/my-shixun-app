@@ -126,15 +126,23 @@ def plot_bar_chart(word_count):
     st.pyplot(fig)
 
     
-# 散点图
+# # 散点图
+# def plot_scatter_chart(word_count):
+#     if st.button("Re-run"):
+#         fig=plt.figure(figsize=(10, 6))
+#         plt.title('散点图')
+#         plt.xlabel('words')
+#         plt.ylabel('counts')
+#         plt.scatter(word_count.keys(),word_count.values())
+#         st.pyplot(fig)
+
 def plot_scatter_chart(word_count):
     if st.button("Re-run"):
-        fig=plt.figure(figsize=(10, 6))
-        plt.title('散点图')
-        plt.xlabel('words')
-        plt.ylabel('counts')
-        plt.scatter(word_count.keys(),word_count.values())
-        st.pyplot(fig)
+        scatter_chart = Scatter()
+        scatter_chart.add_xaxis(list(word_count.keys()))
+        scatter_chart.add_yaxis("", list(word_count.values()),label_opts=opts.LabelOpts(is_show=False))
+        scatter_chart.set_global_opts(title_opts=opts.TitleOpts(title="散点图"),)
+        ste.st_pyecharts(scatter_chart)
 
 # 直方图
 def plot_plotly_chart(word_count):
