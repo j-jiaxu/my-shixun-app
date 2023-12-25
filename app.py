@@ -153,9 +153,12 @@ def plot_plotly_chart(word_count):
 def plot_leida_chart(word_count):
     # 创建Radar对象 
     radar_chart = Radar()
-    key1,value=word_count.items()
+    # 获取字典中的所有键  
+    keys = my_dict.keys()  
+    # 获取第一个键的值  
+    max_value = my_dict[next(iter(keys))]  
     # 添加schema，设置最大值和指标名称 
-    radar_chart.add_schema(schema=[opts.RadarIndicatorItem(name=key, max_=key[0]) for key in word_count.keys()])
+    radar_chart.add_schema(schema=[opts.RadarIndicatorItem(name=key, max_=max_value) for key in word_count.keys()])
     # 添加数据点，这里我们使用word_count.values()作为数据点  
     radar_chart.add("", [list(word_count.values())], color="blue")
     # 设置全局选项，包括标题等 
