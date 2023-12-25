@@ -154,9 +154,9 @@ def plot_leida_chart(word_count):
     # 创建Radar对象 
     radar_chart = Radar()
     # 获取字典中的所有键  
-    keys = my_dict.keys()  
+    keys = word_count.keys()  
     # 获取第一个键的值  
-    max_value = my_dict[next(iter(keys))]  
+    max_value = word_count[next(iter(keys))]  
     # 添加schema，设置最大值和指标名称 
     radar_chart.add_schema(schema=[opts.RadarIndicatorItem(name=key, max_=max_value) for key in word_count.keys()])
     # 添加数据点，这里我们使用word_count.values()作为数据点  
