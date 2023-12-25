@@ -151,24 +151,15 @@ def plot_plotly_chart(word_count):
 
 # 雷达图
 def plot_leida_chart(word_count):
-    # 转换为列表形式  
-    words = list(word_count.keys())  
-    counts = list(word_count.values())  
-      
-    # 创建Radar对象  
-    radar_chart = Radar()  
-      
-    # 添加schema，设置最大值和指标名称  
-    radar_chart.add_schema(schema=[opts.RadarIndicatorItem(name=word, max_=max_value) for word, max_value in zip(words, counts)]  )  
-      
-    # 添加数据点，这里我们使用counts作为数据点，并通过'o'标记它们  
-    data = [counts]  
-    radar_chart.add("", data, label_opts=opts.LabelOpts(is_show=False),   
-                   linestyle_opts=opts.LineStyleOpts(color="red", width=2),   
-                   areastyle_opts=opts.AreaStyleOpts(color=0.1))  
+    # 创建Radar对象 
+    radar_chart = Radar()
+    # 添加schema，设置最大值和指标名称 
+    radar_chart.add_schema(schema=[opts.RadarIndicatorItem(name=key, max_=150) for key in word_count.keys()])
+    # 添加数据点，这里我们使用word_count.values()作为数据点  
+    radar_chart.add("", [list(word_count.values())], color="blue")
     # 设置全局选项，包括标题等 
-    radar_chart.set_global_opts(title_opts=opts.TitleOpts(title="雷达图"))  
-    ste.st_pyecharts(radar_chart)
+    radar_chart.set_global_opts(title_opts=opts.TitleOpts(title="雷达图"), toolbox_opts=opts.ToolboxOpts())
+    word_count(radar_chart)
 
     
 
