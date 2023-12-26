@@ -61,13 +61,14 @@ def a_tags_read(a_tags_txt):
 
 # 将分词结果写入CSV文件
 def a_tags_csv(word_counts):
-    # 以写的方式打开CSV文件
-    with open('words1.csv', 'w', encoding='utf-8', newline='') as csvfile:  
-        writer = csv.writer(csvfile)  
-        writer.writerow(['Word', 'Counts'])  # 写入CSV文件的标题行  
-        for word, counts in word_counts.items():
-            if len(word)>1 and counts>1:
-                writer.writerow([word, counts])  # 写入CSV文件中的每一行数据
+    if word_counts:
+        # 以写的方式打开CSV文件
+        with open('words1.csv', 'w', encoding='utf-8', newline='') as csvfile:  
+            writer = csv.writer(csvfile)  
+            writer.writerow(['Word', 'Counts'])  # 写入CSV文件的标题行  
+            for word, counts in word_counts.items():
+                if len(word)>1 and counts>1:
+                    writer.writerow([word, counts])  # 写入CSV文件中的每一行数据
 
 # 下载CSV文件
 def get_download_link(file_path):
