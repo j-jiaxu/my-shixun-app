@@ -176,8 +176,6 @@ def plot_leida_chart(word_count):
     radar_chart.add_schema(schema=[opts.RadarIndicatorItem(name=key, max_=max_value) for key in word_count.keys()])
     # 添加数据点，这里我们使用word_count.values()作为数据点  
     radar_chart.add("", [list(word_count.values())], color="blue")
-    # 设置全局选项，包括标题等 
-    radar_chart.set_global_opts(title_opts=opts.TitleOpts(title="雷达图"), toolbox_opts=opts.ToolboxOpts())
     ste.st_pyecharts(radar_chart)
 
     
