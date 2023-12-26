@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 plt.rcParams["font.sans-serif"]=["Helvetica"] #设置字体
 plt.rcParams["axes.unicode_minus"]=False #该语句解决图像中的“-”负号的乱码问题
 import jieba 
+import base64
 import re  
 from collections import Counter 
 import csv
@@ -15,6 +16,7 @@ import streamlit_echarts as ste
 import math
 import pandas as pd
 from pyecharts.globals import ThemeType 
+
 #############################################################################################################
 
 # 获取html文本
@@ -27,7 +29,7 @@ def get_html(url):
 # 查找body标签中的数据
 def get_data(html):
     soup=BeautifulSoup(html, 'html.parser')
-    a_tags=soup.find('body')
+    a_tags=soup.get_text()
     return a_tags
 
 # 将body标签中的数据写到txt文件中
@@ -67,6 +69,19 @@ def a_tags_csv(word_counts):
             if len(word)>1 and counts>1:
                 writer.writerow([word, counts])  # 写入CSV文件中的每一行数据
 
+# 下载CSV文件
+def get_download_link(file_path):
+    with open(file_path, "r", encoding="utf-8") as file:
+        file_content = file.read()
+
+    # 编码文件内容为base64
+    file_content_base64 = base64.b64encode(file_content.encode()).decode()
+
+    # 生成下载链接
+    href = f'<a href="data:file/csv;base64,{file_content_base64}" download="{file_path}">下载</a>'
+    return href
+
+
 # 获取词频最高的前20个词
 def a_tags_top(word_counts):
     sorted_word_counts = dict(sorted(word_counts.items(), key=lambda item: item[1], reverse=True))
@@ -85,7 +100,7 @@ def common():
         # 获取数据
         a_tags=get_data(html)
         # 生成txt文本
-        a_tags_txt=get_txt(a_tags.text)
+        a_tags_txt=get_txt(a_tags)
         # 将词放入csv文件
         word_counts=a_tags_read(a_tags_txt)
         a_tags_csv(word_counts)
@@ -200,6 +215,14 @@ def plot_ciyun_chart(word_count,shape_mask):
 # 显示词频
 def get_word():
     word_counts=common()
+    
+    a_tags_csv(word_counts)
+    # 以按钮形式显示下载链接
+    button_label = "下载CSV文件"
+    button_clicked = st.button(button_label)
+    if button_clicked:
+        download_link = get_download_link('words1.csv')
+        st.markdown(download_link, unsafe_allow_html=True)
    
     # 输出CSV文件
     if word_counts:
